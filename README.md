@@ -9,3 +9,9 @@ Usage
 ```sh
 python downloadTracks.py <url> <directory>
 ```
+
+Tracks will download in the following format:
+
+[num] [city] [month] [year] [keertanee]
+
+002 Chicago October 2000 Bhai Jeevan Singh Jee
