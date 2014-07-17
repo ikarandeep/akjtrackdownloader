@@ -11,7 +11,6 @@ print "Directory to save files too is " + str(argList[2])
 smagamUrl=argList[1]
 directory=argList[2]
 r = requests.get(smagamUrl)
-#f = open("sample.html", "r")
 tree = etree.HTML(r.text)
 heading = tree.xpath("//tr/td[@class='Header']")
 city,smagam,month,year = heading[0].text.split()
@@ -60,15 +59,6 @@ for title in dictionary:
 		os.system(command)
 		#os.system('curl ' + url + '-o \"' + track_tile + "\"")
 
-
-# title ---> keertanee --> URL
-# each title has multiple keertanees
-# title is the key in the dictionary
-# each title contains a list of lists
-# each list in the list has a value at [0,1]
-
-
-#f.close()
 
 
 
