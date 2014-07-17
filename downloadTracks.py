@@ -1,17 +1,17 @@
 from lxml import etree
-import requests
+import urllib2
 import re
 import os
 import sys
 
 argList = sys.argv
 print "The URL is " + str(argList[1])
-print "Directory to save files too is " + str(argList[2])
+print "Directory to save files to is " + str(argList[2])
 # send request to the url of the smagam
 smagamUrl=argList[1]
 directory=argList[2]
-r = requests.get(smagamUrl)
-tree = etree.HTML(r.text)
+f = urllib2.urlopen(smagamUrl)
+tree = etree.HTML(f.read())
 heading = tree.xpath("//tr/td[@class='Header']")
 city,smagam,month,year = heading[0].text.split()
 sections = tree.xpath("//table/tr[@class='whaitenack']/parent::node()")
@@ -22,7 +22,7 @@ for i in range(1, len(sections)):
 		# iterate through all of the "tr"
 		table_rows = s.xpath("tr")
 		track_list = []
-		for z in range(0,len(table_rows)-1):
+		for z in range(0,len(table_rows)):
 			tr = table_rows[z]
 			if z == 0:
 				title = tr.xpath("td/font[@class='title']")[0].text
@@ -41,7 +41,6 @@ for i in range(1, len(sections)):
 					track_list.append(result)
 
 		dictionary[title]=track_list
-
 
 for title in dictionary:
 	tracks = dictionary[title]
