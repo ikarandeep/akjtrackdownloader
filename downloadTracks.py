@@ -1,8 +1,8 @@
 from lxml import etree
 import urllib2
 import re
-import os
 import sys
+import subprocess
 
 argList = sys.argv
 print "The URL is " + str(argList[1])
@@ -51,11 +51,21 @@ for title in dictionary:
 		# get the number from the url
 		num = re.search('http://www(.*)/'+year+'\d+\D+(.*?)\D+(.*)$',url)
 		new_num =  num.group(2)
-		track_tile = str(new_num) + " " +  str(city) + " " + str(month) + " " +  str(year) + " " +  keertanee + ".mp3"
-		print track_tile
-		command = 'curl ' + url + ' -o \"' + directory + track_tile + "\""
+		#track_title = str(new_num) + " " +  str(city) + " " + str(month) + " " +  str(year) + " " +  keertanee + ".mp3"
+		track_title = str(new_num) + " " +  str(city) + " " + str(month) + " " +  str(year) + " " +  keertanee + ".mp3"
+		print track_title
+		re.escape(track_title)
+		command = 'curl ' + url + ' -o \"' + directory + track_title + "\""
 		print command
-		os.system(command)
+		# move from os.system to sub process call
+		#os.system(command)
+		#status = subprocess.call(['curl',url,'-o','\"' + directory + track_title + '\"'])
+		status = subprocess.call(['curl',url,'-o',directory + track_title])
+		if status == 0:
+			print "Track downloaded successfully"
+		else:
+			print "Track did not download succesfully"
+			print "status code = " + str(status)
 		#os.system('curl ' + url + '-o \"' + track_tile + "\"")
 
 
